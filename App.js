@@ -5,12 +5,11 @@ import {
   Text,
   View,
   Button,
-  AppState
 } from 'react-native';
+
+import NetInfo from '@react-native-community/netinfo'
+
 import CameraDialog from './app/components/CameraDialog';
-
-import { AppState } from 'react-native';
-
 import PictureList from './app/components/PictureList';
 
 export default function App() {
@@ -22,13 +21,16 @@ export default function App() {
   ]);
   const [isModalOpen, setisModalOpen] = useState(false)
 
-
   useEffect(() => {
-    console.log(AppState.currentState) //dessa forma mostra se o app esta ou não ativo 
-    AppState.addEventListener('change', (nexState) => { // dessa forma ele fica mostrando quando o app esta ativo e quando o app fica em segundo plano
-      console.log(nexState)
-    })
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+    });
+
+    // Unsubscribe
+    unsubscribe();
   }, [])
+
 
   function onPictureSelect(item) {
 
