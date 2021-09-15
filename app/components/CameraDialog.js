@@ -71,6 +71,9 @@ export default function CameraDialog(props) {
 
             </View>
 
+            <View>
+
+            </View>
 
         </Modal>
     );
