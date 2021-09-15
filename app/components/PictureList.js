@@ -23,13 +23,13 @@ export default function PictureList(props) {
             console.log('lista passada para o comp PictureList VAZIA')
         }
 
-    }, [])
+    }, [props.list])
 
     return (
         <View style={{ flex: 1 }}>
             <FlatList
                 numColumns={3}
-                data={props.list}
+                data={list}
                 keyExtractor={keyExtractor}
                 renderItem={({ item }) => <PictureListItem onClick={props.onClick} item={item} />}
             />
