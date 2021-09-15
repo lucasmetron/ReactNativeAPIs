@@ -7,8 +7,6 @@ import {
   Button,
 } from 'react-native';
 
-import NetInfo from '@react-native-community/netinfo'
-
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 
@@ -20,16 +18,6 @@ export default function App() {
     { id: 4, url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR' }
   ]);
   const [isModalOpen, setisModalOpen] = useState(false)
-
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
-    });
-
-    // Unsubscribe
-    unsubscribe();
-  }, [])
 
 
   function onPictureSelect(item) {
