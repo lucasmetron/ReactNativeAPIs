@@ -3,7 +3,8 @@ import {
     View,
     Image,
     FlatList,
-    TouchableHighlight
+    TouchableHighlight,
+    Dimensions,
 } from 'react-native';
 
 
@@ -40,14 +41,16 @@ export default function PictureList(props) {
 
 function PictureListItem(props) {
     const { item } = props
+    const { width } = Dimensions.get('window'); //windows retorna objeto que terá width e heigth, como queremos só a largura, pegamos o width
 
     return (
         <TouchableHighlight onPress={() => { props.onClick(item) }}>
             <Image
                 source={{ uri: item.url }}
                 style={{
-                    width: 80,
-                    height: 80,
+                    width: width / 3 - 8,
+                    height: width / 3 - 8,
+                    margin: 2
                 }}
             />
 
