@@ -7,6 +7,8 @@ import {
   Button,
 } from 'react-native';
 
+import Clipboard from '@react-native-community/clipboard';
+
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 
@@ -18,7 +20,13 @@ export default function App() {
     { id: 4, url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR' }
   ]);
   const [isModalOpen, setisModalOpen] = useState(false)
-
+  async function teste() {
+    await Clipboard.setString('Lucas Rosa')
+    console.log(await Clipboard.getString())
+  }
+  useEffect(() => {
+    teste();
+  }, [])
 
   function onPictureSelect(item) {
 
