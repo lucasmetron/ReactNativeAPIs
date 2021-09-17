@@ -9,7 +9,7 @@ import {
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 
-import fs from 'react-native-fs';
+import fs, { write, copyFile, moveFile, readFile, unlink } from 'react-native-fs';
 
 export default function App() {
   const [pictureList, setPictureList] = useState([
@@ -20,14 +20,17 @@ export default function App() {
   ]);
   const [isModalOpen, setisModalOpen] = useState(false)
 
-  async function async() {
-    await AsyncStorage.setItem('teste', 'Lucas Rosa 123')
-    console.log(await AsyncStorage.getItem('teste'))
-  }
+
 
   useEffect(() => {
-    AsyncStorage.setItem('teste', 'Lucas Rosa 123').then(res => console.log(res))
-    console.log(AsyncStorage.getItem('teste').then(res => console.log(res)))
+    const path = fs.DocumentDirectoryPath + '/text.txt' //DocumentDirectoryPath pega o caminho do diretório de arquivos do próprio app
+    // writeFile(path, 'Texto dentro do arquivo', 'utf8') criou arquivo no caminho passado no formato txt e com conteudo 'Texto dentro ...'
+
+    readFile(path, 'utf8').then(res => console.log(res))
+    moveFile(path, newPath)//mover o arquivo para outro caminho 
+    copyFile(path, dest) //copiar o arquivo e salvar no novo destino 
+    unlink(path) //remove o arquivo no caminho que foi passado 
+
   }, [])
 
   function onPictureSelect(item) {
