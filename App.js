@@ -8,30 +8,47 @@ import {
 } from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
+import AsyncStorage from '@react-native-community/async-storage';
+let obj = [
+  { id: 1, url: 'https://img.cybercook.com.br/imagens/receitas/35/cheesecake-de-frutas-vermelhas-3.jpeg' },
+  { id: 2, url: 'https://www.oficinadeinverno.com.br/blog/wp-content/uploads/2015/03/gluten-free-new-york-cheesecake-1450985-hero-01-dc54f9daf38044238b495c7cefc191fa.jpg' },
+  { id: 3, url: 'https://naminhapanela.com/wp-content/uploads/2020/07/cheesecake-de-chocolate-2.jpg' },
+  { id: 4, url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR' }
 
-import fs, { write, copyFile, moveFile, readFile, unlink } from 'react-native-fs';
+]
+
+
+import { StoraService } from './app/services/StorageService'
 
 export default function App() {
-  const [pictureList, setPictureList] = useState([
-    { id: 1, url: 'https://img.cybercook.com.br/imagens/receitas/35/cheesecake-de-frutas-vermelhas-3.jpeg' },
-    { id: 2, url: 'https://www.oficinadeinverno.com.br/blog/wp-content/uploads/2015/03/gluten-free-new-york-cheesecake-1450985-hero-01-dc54f9daf38044238b495c7cefc191fa.jpg' },
-    { id: 3, url: 'https://naminhapanela.com/wp-content/uploads/2020/07/cheesecake-de-chocolate-2.jpg' },
-    { id: 4, url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR' }
-  ]);
+  const [pictureList, setPictureList] = useState([]);
   const [isModalOpen, setisModalOpen] = useState(false)
 
+  async function getAsync() {
+    return await AsyncStorage.getItem('pictureList')
+  }
+
+  async function setAsync(obj) {
+    return await AsyncStorage.setItem('pictureList', obj)
+  }
 
 
   useEffect(() => {
-    const path = fs.DocumentDirectoryPath + '/text.txt' //DocumentDirectoryPath pega o caminho do diretório de arquivos do próprio app
-    // writeFile(path, 'Texto dentro do arquivo', 'utf8') criou arquivo no caminho passado no formato txt e com conteudo 'Texto dentro ...'
 
-    readFile(path, 'utf8').then(res => console.log(res))
-    moveFile(path, newPath)//mover o arquivo para outro caminho 
-    copyFile(path, dest) //copiar o arquivo e salvar no novo destino 
-    unlink(path) //remove o arquivo no caminho que foi passado 
+    async function get() {
+      return await StoraService.get('pictureList').then(res => console.log(res)) || [];
+    }
+    console.log(console.log(get()))
+    // setPictureList(get())
 
   }, [])
+
+  // useEffect(() => {
+
+  //   console.log('nova picture list:')
+  //   console.log(pictureList)
+  // }, [pictureList])
+
 
   function onPictureSelect(item) {
 
