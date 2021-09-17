@@ -6,9 +6,10 @@ import {
   View,
   Button,
 } from 'react-native';
-
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
+
+import fs from 'react-native-fs';
 
 export default function App() {
   const [pictureList, setPictureList] = useState([
@@ -18,6 +19,16 @@ export default function App() {
     { id: 4, url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR' }
   ]);
   const [isModalOpen, setisModalOpen] = useState(false)
+
+  async function async() {
+    await AsyncStorage.setItem('teste', 'Lucas Rosa 123')
+    console.log(await AsyncStorage.getItem('teste'))
+  }
+
+  useEffect(() => {
+    AsyncStorage.setItem('teste', 'Lucas Rosa 123').then(res => console.log(res))
+    console.log(AsyncStorage.getItem('teste').then(res => console.log(res)))
+  }, [])
 
   function onPictureSelect(item) {
 
