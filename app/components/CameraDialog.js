@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Text,
     Button
-} from 'react-native'
+} from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 
 export default function CameraDialog(props) {
 
@@ -19,9 +20,18 @@ export default function CameraDialog(props) {
     }, [props.isOpen])
 
 
-    function getImageFromClipboard() {
+    async function getImageFromClipboard() {
+
+        const imageURL = await Clipboard.getString();
+        const extensions = ['.png', '.jpg', '.jpeg'];
+        const isImage = extensions.some(extension => imageURL.toLowerCase().includes(extension))
+
+        if (isImage) {
+            setCurrentImage(imageURL);
+        }
 
     }
+
     function save() {
         props.onClose();
     }
