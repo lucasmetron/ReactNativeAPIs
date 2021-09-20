@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
-import AsyncStorage from '@react-native-community/async-storage';
+import { StorageService } from './app/services/StorageService'
+
 let obj = [
   { id: 1, url: 'https://img.cybercook.com.br/imagens/receitas/35/cheesecake-de-frutas-vermelhas-3.jpeg' },
   { id: 2, url: 'https://www.oficinadeinverno.com.br/blog/wp-content/uploads/2015/03/gluten-free-new-york-cheesecake-1450985-hero-01-dc54f9daf38044238b495c7cefc191fa.jpg' },
@@ -18,36 +19,28 @@ let obj = [
 ]
 
 
-import { StoraService } from './app/services/StorageService'
+
+
 
 export default function App() {
   const [pictureList, setPictureList] = useState([]);
   const [isModalOpen, setisModalOpen] = useState(false)
 
-  async function getAsync() {
-    return await AsyncStorage.getItem('pictureList')
-  }
-
-  async function setAsync(obj) {
-    return await AsyncStorage.setItem('pictureList', obj)
-  }
-
 
   useEffect(() => {
+    StorageService.get('pictureList')
+      .then(item => {
+        if (item != '') {
+          setPictureList(item)
+        } else {
+          setPictureList([])
+        }
 
-    async function get() {
-      return await StoraService.get('pictureList').then(res => console.log(res)) || [];
-    }
-    console.log(console.log(get()))
-    // setPictureList(get())
+      })
 
   }, [])
 
-  // useEffect(() => {
 
-  //   console.log('nova picture list:')
-  //   console.log(pictureList)
-  // }, [pictureList])
 
 
   function onPictureSelect(item) {
@@ -59,6 +52,17 @@ export default function App() {
   }
 
   function closeModal(response) {
+
+    if (typeof response === 'string') {
+      const newItem = {
+        url: response,
+        id: (Date.now()).toString(),
+      }
+      let newPictureList = [...pictureList, newItem]
+      setPictureList(newPictureList);
+      StorageService.set('pictureList', newPictureList);
+    }
+
     setisModalOpen(false)
   }
 
