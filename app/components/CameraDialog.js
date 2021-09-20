@@ -9,6 +9,7 @@ import {
     Button
 } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
+import { PictureService } from "../services/PictureService";
 
 export default function CameraDialog(props) {
 
@@ -32,8 +33,9 @@ export default function CameraDialog(props) {
 
     }
 
-    function save() {
-        props.onClose();
+    async function save() {
+        const result = await PictureService.save(currentImage);
+        props.onClose(result);
     }
 
     function shot() {

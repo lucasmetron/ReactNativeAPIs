@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { clear } from 'react-native/Libraries/LogBox/Data/LogBoxData';
 
 
-export const StoraService = {
+export const StorageService = {
     async get(key) {
         return JSON.parse(await AsyncStorage.getItem(key));
     },
