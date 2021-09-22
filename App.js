@@ -1,8 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button, Alert} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ToastAndroid,
+} from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 import {StorageService} from './app/services/StorageService';
+
+import DatePicker from 'react-native-date-picker';
 
 let obj = [
   {
@@ -36,7 +45,7 @@ export default function App() {
       }
     });
 
-    // StorageService.set('pictureList', obj) //antes de testar, jogue esses obj no asyncStorage 
+    // StorageService.set('pictureList', obj) //antes de testar, jogue esses obj no asyncStorage
     // StorageService.clear()
     console.log(pictureList);
   }, []);
@@ -55,7 +64,7 @@ export default function App() {
     if (typeof response === 'string') {
       const newItem = {
         url: response,
-        id: (Date.now()).toString(),
+        id: Date.now().toString(),
       };
 
       console.log(newItem);
@@ -68,41 +77,39 @@ export default function App() {
     setisModalOpen(false);
   }
 
-    useEffect(()=>{
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
-      Alert.alert('Meu Titulo', 'Minha mensagem', [
-        {
-          text: 'Confirmar',
-          onPress: ()=>{console.log('Usuário confirmou')}
-        },
-        {
-          text: 'Cancelar',
-          onPress: ()=>{console.log('Usuário cancelou')}
-        },
+  useEffect(() => {
+    //  ToastAndroid.show('Uma mensagem toast', ToastAndroid.SHORT)
+    //  ToastAndroid.showWithGravity('Uma mensagem no centro', ToastAndroid.SHORT, ToastAndroid.CENTER)
+    //  ToastAndroid.showWithGravityAndOffset('Uma mensagem deslocando do centro', ToastAndroid.SHORT, ToastAndroid.CENTER, 50, 20)
+  }, []);
 
-      ], {
-        onDismiss: ()=>{console.log('Usuário fechou o alerta')},
-        cancelable: true,
-      }
-      )
-   
-    },[])
+  return (
+    <View style={styles.container}>
+      <Button title="Open" onPress={() => setOpen(true)} />
+      <DatePicker
+        modal
+        open={open}
+        date={date}
+        onConfirm={(date) => {
+          setOpen(false)
+          setDate(date)
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      />
 
-    return (
-      <View style={styles.container}>
-
-
-
-         
-        {/* <PictureList list={pictureList} onClick={onPictureSelect} />
+      {/* <PictureList list={pictureList} onClick={onPictureSelect} />
         <View style={styles.footer}>
           <Button onPress={openModal} title="Nova Foto" color="#0062ac" />
         </View>
         <CameraDialog isOpen={isModalOpen} onClose={closeModal} /> */}
-      
-      </View>
-    );
-  }
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
