@@ -35,6 +35,7 @@ export default function CameraDialog(props) {
 
     async function save() {
         const result = await PictureService.save(currentImage);
+        console.log(result)
         props.onClose(result);
     }
 

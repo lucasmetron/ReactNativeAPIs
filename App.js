@@ -1,80 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
-import { StorageService } from './app/services/StorageService'
+import {StorageService} from './app/services/StorageService';
 
 let obj = [
-  { id: 1, url: 'https://img.cybercook.com.br/imagens/receitas/35/cheesecake-de-frutas-vermelhas-3.jpeg' },
-  { id: 2, url: 'https://www.oficinadeinverno.com.br/blog/wp-content/uploads/2015/03/gluten-free-new-york-cheesecake-1450985-hero-01-dc54f9daf38044238b495c7cefc191fa.jpg' },
-  { id: 3, url: 'https://naminhapanela.com/wp-content/uploads/2020/07/cheesecake-de-chocolate-2.jpg' },
-  { id: 4, url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR' }
-
-]
-
-
-
-
+  {
+    id: 1,
+    url: 'https://img.cybercook.com.br/imagens/receitas/35/cheesecake-de-frutas-vermelhas-3.jpeg',
+  },
+  {
+    id: 2,
+    url: 'https://www.oficinadeinverno.com.br/blog/wp-content/uploads/2015/03/gluten-free-new-york-cheesecake-1450985-hero-01-dc54f9daf38044238b495c7cefc191fa.jpg',
+  },
+  {
+    id: 3,
+    url: 'https://naminhapanela.com/wp-content/uploads/2020/07/cheesecake-de-chocolate-2.jpg',
+  },
+  {
+    id: 4,
+    url: 'https://www.schaer.com/sites/default/files/styles/header/public/2022_Cheesecake%20de%20frutas%20vermelhas.jpg?itok=rTfbZnqR',
+  },
+];
 
 export default function App() {
   const [pictureList, setPictureList] = useState([]);
-  const [isModalOpen, setisModalOpen] = useState(false)
-
+  const [isModalOpen, setisModalOpen] = useState(false);
 
   useEffect(() => {
-    StorageService.get('pictureList')
-      .then(item => {
-        if (item != '') {
-          setPictureList(item)
-        } else {
-          setPictureList([])
-        }
+    StorageService.get('pictureList').then(item => {
+      if (item != '') {
+        setPictureList(item);
+      } else {
+        setPictureList([]);
+      }
+    });
 
-      })
+    // StorageService.set('pictureList', obj)
+    console.log(pictureList);
+  }, []);
 
-  }, [])
+  useEffect(() => {
+    console.log(pictureList);
+  }, [pictureList]);
 
-
-
-
-  function onPictureSelect(item) {
-
-  }
+  function onPictureSelect(item) {}
 
   function openModal() {
-    setisModalOpen(true)
+    setisModalOpen(true);
   }
 
   function closeModal(response) {
+    console.log('response no close modal');
+    console.log(response);
 
     if (typeof response === 'string') {
       const newItem = {
         url: response,
-        id: (Date.now()).toString(),
-      }
-      let newPictureList = [...pictureList, newItem]
+        id: Date.now().toString(),
+      };
+      console.log(newItem);
+
+      let newPictureList = [...pictureList, newItem];
       setPictureList(newPictureList);
+      console.log(newPictureList);
       StorageService.set('pictureList', newPictureList);
     }
 
-    setisModalOpen(false)
+    setisModalOpen(false);
   }
 
   return (
     <View style={styles.container}>
       <PictureList list={pictureList} onClick={onPictureSelect} />
       <View style={styles.footer}>
-        <Button
-          onPress={openModal}
-          title='Nova Foto'
-          color='#0062ac'
-        />
+        <Button onPress={openModal} title="Nova Foto" color="#0062ac" />
       </View>
       <CameraDialog isOpen={isModalOpen} onClose={closeModal} />
     </View>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
   },
 
   footer: {
@@ -94,5 +94,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#999',
     width: '100%',
     textAlign: 'center',
-  }
-})
+  },
+});

@@ -18,8 +18,9 @@ export default function PictureList(props) {
     }
 
     useEffect(() => {
-        if (props.list.length !== 0) {
+        if (props.list) {
             setList(props.list)
+            console.log(props.list)
         } else {
             console.log('lista passada para o comp PictureList VAZIA')
         }
@@ -30,7 +31,7 @@ export default function PictureList(props) {
         <View style={{ flex: 1 }}>
             <FlatList
                 numColumns={3}
-                data={list}
+                data={list || []}
                 keyExtractor={keyExtractor}
                 renderItem={({ item }) => <PictureListItem onClick={props.onClick} item={item} />}
             />
