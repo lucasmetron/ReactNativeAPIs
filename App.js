@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button, BackHandler} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, Button, Keyboard, TextInput} from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 import {StorageService} from './app/services/StorageService';
@@ -69,23 +69,25 @@ export default function App() {
   }
 
   useEffect(()=>{
-    let counter = 1;
-    BackHandler.addEventListener('hardwareBackPress', ()=>{
-      if(counter === 3){
-        BackHandler.exitApp(); //sai do app caso counter for maior que 3
-      }
-      console.log('123')
-      return true //não permite sair do app caso nao tenha mais o que voltar
+    Keyboard.addListener('keyboardDidShow', ()=>{
+      console.log('apareceu')
+      Keyboard.dismiss();
+    })
+
+    Keyboard.addListener('keyboardDidHide', ()=>{
+      console.log('sumiu')
     })
   },[])
 
   return (
     <View style={styles.container}>
-      <PictureList list={pictureList} onClick={onPictureSelect} />
+        <TextInput style={{backgroundColor: 'yellow '}}/>
+      {/* <PictureList list={pictureList} onClick={onPictureSelect} />
       <View style={styles.footer}>
         <Button onPress={openModal} title="Nova Foto" color="#0062ac" />
       </View>
-      <CameraDialog isOpen={isModalOpen} onClose={closeModal} />
+      <CameraDialog isOpen={isModalOpen} onClose={closeModal} /> */}
+    
     </View>
   );
 }
