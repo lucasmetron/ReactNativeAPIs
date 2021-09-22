@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Button} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, Button, BackHandler} from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 import {StorageService} from './app/services/StorageService';
@@ -67,6 +67,17 @@ export default function App() {
 
     setisModalOpen(false);
   }
+
+  useEffect(()=>{
+    let counter = 1;
+    BackHandler.addEventListener('hardwareBackPress', ()=>{
+      if(counter === 3){
+        BackHandler.exitApp(); //sai do app caso counter for maior que 3
+      }
+      console.log('123')
+      return true //não permite sair do app caso nao tenha mais o que voltar
+    })
+  },[])
 
   return (
     <View style={styles.container}>
