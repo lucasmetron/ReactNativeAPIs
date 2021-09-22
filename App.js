@@ -29,14 +29,15 @@ export default function App() {
 
   useEffect(() => {
     StorageService.get('pictureList').then(item => {
-      if (item != '') {
+      if (item) {
         setPictureList(item);
       } else {
         setPictureList([]);
       }
     });
 
-    // StorageService.set('pictureList', obj)
+    // StorageService.set('pictureList', obj) //antes de testar, jogue esses obj no asyncStorage 
+    // StorageService.clear()
     console.log(pictureList);
   }, []);
 
@@ -51,19 +52,16 @@ export default function App() {
   }
 
   function closeModal(response) {
-    console.log('response no close modal');
-    console.log(response);
-
     if (typeof response === 'string') {
       const newItem = {
         url: response,
-        id: Date.now().toString(),
+        id: (Date.now()).toString(),
       };
+
       console.log(newItem);
 
       let newPictureList = [...pictureList, newItem];
       setPictureList(newPictureList);
-      console.log(newPictureList);
       StorageService.set('pictureList', newPictureList);
     }
 
