@@ -1,4 +1,6 @@
 import fs from 'react-native-fs'
+import { Alert } from 'react-native';
+import { NetworkService } from './NetworkService';
 
 export const PictureService = {
 
@@ -20,5 +22,31 @@ export const PictureService = {
         return 'file://' + toFile;
     },
 
+    async selectPicture(item, onRemoveCallback) {
+        Alert.alert(
+            'Minha imagem',
+            `ID: ${item.id}`,
+            [
+                {
+                    text: 'Compartilharaaaar',
+                    onPress: () => PictureService.onShare(item),
+                },
+                {
+                    text: 'Apagar',
+                    onPress: () => onRemoveCallback(item)
+                },
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                }
+            ],
+            {
+                cancelable: false
+            }
+        )
+    },
 
+    async onShare(item) {
+        const response = await NetworkService.share(item.url)
+    },
 }

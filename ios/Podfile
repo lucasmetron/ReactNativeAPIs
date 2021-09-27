@@ -16,6 +16,8 @@ target 'twphotos' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   target 'twphotosTests' do
     inherit! :complete
     # Pods for testing
