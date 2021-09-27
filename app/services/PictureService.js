@@ -28,7 +28,7 @@ export const PictureService = {
             `ID: ${item.id}`,
             [
                 {
-                    text: 'Compartilharaaaar',
+                    text: 'Compartilhar',
                     onPress: () => PictureService.onShare(item),
                 },
                 {

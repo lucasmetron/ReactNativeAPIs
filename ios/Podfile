@@ -18,6 +18,8 @@ target 'twphotos' do
 
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
   target 'twphotosTests' do
     inherit! :complete
     # Pods for testing
