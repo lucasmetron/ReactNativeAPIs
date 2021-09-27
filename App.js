@@ -5,9 +5,12 @@ import {
   Text,
   View,
   Button,
+  ActionSheetIOS,
+  AlertIOS
 } from 'react-native';
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
+import { PictureService } from './app/services/PictureService';
 import {StorageService} from './app/services/StorageService';
 
 
@@ -52,7 +55,17 @@ export default function App() {
     console.log(pictureList);
   }, [pictureList]);
 
-  function onPictureSelect(item) {}
+  function onPictureSelect(item) {
+
+    PictureService.selectPicture(item, onRemove)
+
+  }
+
+  async function onRemove(item) {
+    const newPictureList = pictureList.filter(listItem => listItem.id !== item.id)
+    await StorageService.set('pictureList', newPictureList);
+    setPictureList(newPictureList);
+  }
 
   function openModal() {
     setisModalOpen(true);
@@ -102,3 +115,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+
+
