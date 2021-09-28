@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,9 +11,9 @@ import {
 import CameraDialog from './app/components/CameraDialog';
 import PictureList from './app/components/PictureList';
 import { PictureService } from './app/services/PictureService';
-import {StorageService} from './app/services/StorageService';
+import { StorageService } from './app/services/StorageService';
 
-import { RNCamera } from 'react-native-camera'
+// import { RNCamera } from 'react-native-camera'
 
 
 let obj = [
@@ -95,17 +95,17 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* <PictureList list={pictureList} onClick={onPictureSelect} />
-        <View style={styles.footer}>
-          <Button onPress={openModal} title="Nova Foto" color="#0062ac" />
-        </View>
-        <CameraDialog isOpen={isModalOpen} onClose={closeModal} />  */}
-      <RNCamera
+      <PictureList list={pictureList} onClick={onPictureSelect} />
+      <View style={styles.footer}>
+        <Button onPress={openModal} title="Nova Foto" color="#0062ac" />
+      </View>
+      <CameraDialog isOpen={isModalOpen} onClose={closeModal} />
+      {/* <RNCamera
         ref={ref => { setCamera(ref) }}
         style={{ height: 200, width: 200 }}
         type={RNCamera.Constants.Type.front}
         flashMode={RNCamera.Constants.FlashMode.on}
-      />
+      /> */}
     </View>
   );
 }
